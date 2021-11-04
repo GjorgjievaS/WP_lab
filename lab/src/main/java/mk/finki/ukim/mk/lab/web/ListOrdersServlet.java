@@ -33,6 +33,25 @@ public class ListOrdersServlet extends HttpServlet {
         context.setVariable("orders", orderService.listOrders());
         springTemplateEngine.process("listorders.html",context,resp.getWriter());
     }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String balloonColor = req.getParameter("balloonColor");
+        String clientName = req.getParameter("clientName");
+        String address = req.getParameter("address");
+
+        Order order = null;
+        try {
+            order = orderService.placeOrder(balloonColor,clientName,address);
+        } catch (Exception exception) {
+            WebContext context = new WebContext(req,resp,req.getServletContext());
+
+            springTemplateEngine.process("listorders.html",context,resp.getWriter());
+            return;
+        }
+        req.getSession().setAttribute("order",order);
+        resp.sendRedirect("/BalloonOrder");
+    }
 }
 
 
