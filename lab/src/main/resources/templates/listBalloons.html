@@ -16,12 +16,26 @@
 <main>
     <h2>Choose balloon color:</h2>
 
+    <div th:if="${hasError}">
+        <div th:text="${error}" class="text-danger"></div>
+    </div>
+
     <form th:action="@{/selectBalloon}" th:method="GET">
         <block th:each="balloon : ${balloons}">
             <input type="radio" name="color" th:value="${balloon.getName()}">
             <th:block th:text="${balloon.getName()}"/><br/>
+
+            <a th:href="@{'/balloons/delete/{id}' (id=${balloon.getId()})}"
+               class="btn btn-sm btn-info"><i class="fa fa-trash">Delete</i></a>
+
+            <a th:href="@{'/balloons/edit-form/{id}' (id=${balloon.getId()})}"
+               class="btn btn-sm btn-info"><i class="fa fa-trash">Edit</i></a>
+            <br>
         </block>
         <input type="submit" value="Submit">
+
+        <a th:href="@{/balloons/add-form}"
+           class="btn btn-sm btn-info"><i class="fa fa-trash">Add Balloon</i></a>
     </form>
     <br/>
 

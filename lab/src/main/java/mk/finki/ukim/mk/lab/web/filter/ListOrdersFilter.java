@@ -25,8 +25,7 @@ public class ListOrdersFilter implements Filter {
         Order order = (Order) request.getSession().getAttribute("order");
         String PublicPath = request.getServletPath();
 
-        if (!"".equals(PublicPath) && !"/BalloonOrder".equals(PublicPath) && !"/confirmationInfo".equals(PublicPath)
-                && !"/logout".equals(PublicPath)&& !"/selectBalloon".equals(PublicPath)&&order == null) {
+        if (PublicPath.equals("/listorders") && order == null) {
             response.sendRedirect("");
         } else {
             filterChain.doFilter(servletRequest, servletResponse);
